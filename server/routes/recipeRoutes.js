@@ -18,7 +18,9 @@ recipeRouter.get('/',recipeController.homepage)
 recipeRouter.get('/categories',recipeController.exploreCategories)
 recipeRouter.get('/recipe/:id',recipeController.exploreRecipes)
 recipeRouter.get('/categories/:id',recipeController.exploreCategoriesById)
+
 recipeRouter.post('/search',recipeController.searchRecipe)
+
 recipeRouter.get('/explore-latest',recipeController.exploreLatest)
 recipeRouter.get('/explore-random',recipeController.exploreRandom)
 
@@ -35,6 +37,12 @@ recipeRouter.get('/allrecipes',recipeController.allRecipes)
 
 recipeRouter.get('/profile',verifyLogin,recipeController.userProfile)
 recipeRouter.post('/profile',verifyLogin,recipeController.Profile)
+
+recipeRouter.get('/viewList/:id',verifyLogin,recipeController.viewRecipe)
+
+recipeRouter.post('/editList/:id',verifyLogin,recipeController.editRecipe)
+
+recipeRouter.delete('/deleteList/:id',verifyLogin,recipeController.deleteRecipe)
 
 //log out
 recipeRouter.get('/logout',(req,res)=> {
