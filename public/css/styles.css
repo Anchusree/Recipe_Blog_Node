@@ -156,3 +156,14 @@ mark {
 .dark-color {
     color: #20247b;
 }
+.media i:hover{
+  cursor: pointer;
+}
+.resultspan{
+  font-size: 14px;
+}
+.resulttitle{
+  font-size: 17px;
+  font-weight: bold;
+
+}
