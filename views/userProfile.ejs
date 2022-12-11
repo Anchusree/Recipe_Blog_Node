@@ -3,57 +3,206 @@
         <div class="row align-items-center flex-row-reverse">
             <div class="col-lg-6">
                 <div class="about-text go-to">
-                    <h3 class="dark-color"><%= user.name %>'s Profile</h3>
+                    <h3 class="dark-color">
+                        <%= user.name %>'s Profile
+                    </h3>
                     <!-- <% if(user && user.description ) {%> -->
-                        <p><%= user.description %></p>
+                    <p>
+                        <%= user.description %>
+                    </p>
                     <!-- <% } else { %>
                         <p>I am a home baker. My passion is to design digital user experiences through the bold interface and meaningful interactions.</p>
                     <% } %> -->
-                   
+
                     <div class="row about-list">
                         <div class="col-md-6">
                             <div class="media">
                                 <label>Name</label>
-                                <p><%= user.name %></p>
+                                <p>
+                                    <%= user.name %>
+                                </p>
                             </div>
                             <div class="media">
                                 <label>Since</label>
-                                <p><%= user.createdAt.toDateString() %></p>
+                                <p>
+                                    <%= user.createdAt.toDateString() %>
+                                </p>
                             </div>
                         </div>
-                       
+
                         <div class="col-md-6">
                             <div class="media">
                                 <label>E-mail</label>
-                                <p><%= user.email %></p>
+                                <p>
+                                    <%= user.email %>
+                                </p>
                             </div>
                             <div class="media">
                                 <label>Recipes</label>
-                                <p><%= count %></p>
+                                <p>
+                                    <%= count %>&nbsp;
+                                        <% if(count !='' && count> 0) { %>
+                                            <i class="bi bi-eye-fill" onclick="showrecipe()"></i>
+                                            <% } %>
+                                                <!-- <button type="button" data-toggle="modal" data-target="#exampleModal"><i class="bi bi-eye-fill"></i></button> -->
+                                </p>
+                            </div>
+                        </div>
+                        <div id="mtable" style="display:none">
+                            <div id="Grid">
+                                <table class="table mt-5">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">S.No</th>
+                                            <th scope="col">Recipe</th>
+                                            <th scope="col">Item</th>
+                                            <th scope="col">Category</th>
+                                            <th scope="col">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% if(recipe !='' ) { %>
+                                            <% recipe.forEach(function(item,index){ %>
+                                                <tr>
+                                                    <td>
+                                                        <%= index+1 %>
+                                                    </td>
+                                                    <td>
+                                                        <img style="width:70px;height:70px"
+                                                            src="/uploads/<%- item.image %>" alt="">
+                                                    </td>
+                                                    <td>
+                                                        <%= item.name %>
+                                                    </td>
+                                                    <td>
+                                                        <%= item.category %>
+                                                    </td>
+
+                                                    <td>
+                                                        <button class="btn btn-warning"
+                                                            onclick="viewList('<%= item._id %>')" data-bs-toggle="modal"
+                                                            data-bs-target="#viewModal">
+                                                            <i class="bi bi-view-list"></i>
+                                                        </button>
+
+                                                        <button class="btn btn-danger"
+                                                            onclick="removeList('<%= item._id %>')">
+                                                            <i class="bi bi-trash"></i>
+                                                        </button>
+
+                                                    </td>
+                                                </tr>
+                                                <% }) %>
+
+                                                    <% } %>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="col-lg-6">
                 <div class="about-avatar">
                     <% if(user && user.image ) {%>
                         <img src="/uploads/<%= user.image %>" alt="image" loading="lazy" width="300px" height="300px">
-                    <% } else { %>
-                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" title="avatar" alt="avatar">
-                    <% } %>
+                        <% } else { %>
+                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" title="avatar" alt="avatar">
+                            <% } %>
                 </div>
-                <br/>
+                <br />
                 <form method="post" action="/profile" enctype="multipart/form-data">
 
                     <label for="image"></label>
                     <input type="file" name="image" accept="image/*" required>
 
-                    <button type="submit" class="btn btn-primary">Upload</button>    
+                    <button type="submit" class="btn btn-primary">Upload</button>
                 </form>
-               
+
             </div>
         </div>
-      
+
     </div>
 </section>
+
+<div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewModalLabel">View Recipe</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modalviewbody">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    function showrecipe() {
+        document.getElementById("mtable").style.display = "block";
+    }
+    function viewList(id) {
+        $.ajax({
+            url: '/viewList/' + id,
+            method: 'get',
+            success: (response) => {
+                if (response.status) {
+                    var html = '';
+                    if (response.result.length > 0) {
+                        html += `
+                        <div class='container'>
+                            <div class='row'>
+                                <div class='col-md-8'>
+                                    <h4 class='resulttitle'>Recipe ID: <span class='resultspan'>`+ response.result[0]._id + `</span></h4>
+                                    <h4 class='resulttitle'>Item: <span class='resultspan'>`+ response.result[0].name + `</span></h4>
+                                    <h4 class='resulttitle'>Description: <span class='resultspan'>`+ response.result[0].description + `</span></h4>
+                                    <h4 class='resulttitle'>Category: <span class='resultspan'>`+ response.result[0].category + `</span> </h4>
+                                    <h4 class='resulttitle'>Ingredients: <span class='resultspan'>`+ response.result[0].ingredients.join(',') + `</span></h4>
+                                    <h4 class='resulttitle'>Instructions: <span class='resultspan'>`+ response.result[0].instructions + `</span></h4>
+                                </div>
+                                <div class='col-md-2'>
+                                    <img src="/uploads/`+ response.result[0].image + `" alt="image" loading="lazy" width="200px" height="200px">
+                                </div>
+                            </div>
+                        </div>
+                        `;
+                    }
+
+                    $('#modalviewbody').html(html);
+
+
+                }
+                else {
+                    alert("Something went wrong")
+                }
+            }
+
+        })
+    }
+    function removeList(id) {
+
+        $.ajax({
+            url: '/deleteList/' + id,
+            method: 'delete',
+            success: (response) => {
+                if (response.status) {
+                    location.reload()
+                }
+                else {
+                    alert("Something went wrong")
+                }
+            }
+        })
+
+    }
+
+</script>
