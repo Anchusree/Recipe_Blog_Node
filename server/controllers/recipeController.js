@@ -398,6 +398,7 @@ exports = module.exports.viewRecipe = async(req,res)=>{
 }
 
 exports = module.exports.editRecipe = async(req,res)=>{
+<<<<<<< HEAD
     try { 
         const {name,description} = req.body
         console.log(name,description)
@@ -407,6 +408,12 @@ exports = module.exports.editRecipe = async(req,res)=>{
         const recipe_id= req.params.id
         const recipeItem = await Recipe.find({ _id: recipe_id })
         console.log(recipeItem)
+=======
+    try {
+        console.log(req.body)
+        const recipe_id= req.params.id
+        const recipeItem = await Recipe.find({ _id: recipe_id })
+>>>>>>> a035658e25b91b2ce7d7eeaed2e4e9e46128a964
         let ingredientsArray;
 
         let imageUploadFile;
@@ -433,6 +440,7 @@ exports = module.exports.editRecipe = async(req,res)=>{
         console.log(ingredientsArray)
 
         await Recipe.findByIdAndUpdate({_id: ObjectId(recipe_id)},
+<<<<<<< HEAD
                 
                     req.body
                     // name: req.body.name ? req.body.name : recipeItem[0].name,
@@ -445,11 +453,25 @@ exports = module.exports.editRecipe = async(req,res)=>{
                 { new: true }
                 // { upsert: true }
                 )
+=======
+                {
+                    "name": req.body.name ? req.body.name : recipeItem[0].name,
+                    "description": req.body.description ? req.body.description : recipeItem[0].description,
+                    "instructions": req.body.instructions ? req.body.instructions : recipeItem[0].instructions,
+                    "ingredients": req.body.ingredients ? ingredientsArray : recipeItem[0].ingredients,
+                    "category": req.body.category ? req.body.category : recipeItem[0].category,
+                    "image": newImageName ? newImageName : recipeItem[0].image,
+                },
+                { upsert: true })
+>>>>>>> a035658e25b91b2ce7d7eeaed2e4e9e46128a964
         .then(response => {
             console.log(response)
             res.json({status:true,result:response})
         })
+<<<<<<< HEAD
         res.redirect('/profile')
+=======
+>>>>>>> a035658e25b91b2ce7d7eeaed2e4e9e46128a964
 
        
     }
@@ -466,4 +488,8 @@ module.exports.deleteRecipe = async(req,res)=>{
        res.json({status:true})
     })
 
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> a035658e25b91b2ce7d7eeaed2e4e9e46128a964
