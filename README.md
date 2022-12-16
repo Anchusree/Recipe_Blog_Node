@@ -1,6 +1,5 @@
 
 Recipe Blog using Node js 
 
+![Group 1 (2)](https://user-images.githubusercontent.com/68848197/208077499-13f94242-ccc3-42cd-b6d0-ec704582f12a.png)
 
-![image](https://user-images.githubusercontent.com/68848197/205890667-d0c8111e-17cf-45d4-bde3-eaf71d1ac600.png)
-![image](https://user-images.githubusercontent.com/68848197/205891076-99874851-611b-45ee-b701-df8c60bdfd4b.png)
