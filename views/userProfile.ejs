@@ -85,15 +85,12 @@
                                                             <i class="bi bi-view-list"></i>
                                                         </button>
 
-<<<<<<< HEAD
                                                         <button class="btn btn-success"
                                                             onclick="editList('<%= item._id %>')" data-bs-toggle="modal"
                                                             data-bs-target="#editModal">
                                                             <i class="bi bi-pen"></i>
                                                         </button>
 
-=======
->>>>>>> a035658e25b91b2ce7d7eeaed2e4e9e46128a964
                                                         <button class="btn btn-danger"
                                                             onclick="removeList('<%= item._id %>')">
                                                             <i class="bi bi-trash"></i>
@@ -152,7 +149,6 @@
     </div>
 </div>
 
-<<<<<<< HEAD
 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModallabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
@@ -173,8 +169,6 @@
     </div>
 </div>
 
-=======
->>>>>>> a035658e25b91b2ce7d7eeaed2e4e9e46128a964
 
 
 
@@ -237,7 +231,6 @@
 
     }
 
-<<<<<<< HEAD
 
     function editList(id) {
 
@@ -259,18 +252,10 @@
             </div>
     
             <div class="col-12">
-                <label for="name" class="form-label">Ingredients</label><br>
-                <small>Example: Ice</small>
-                <div class="ingredientList">
-                <div class="ingredientDiv mb-1">
-                    <input type="text" name="ingredients" class="form-control" autocomplete="off">
-                </div>
-                </div>
+                <label for="Ingredients" class="form-label">Ingredients</label>
+                <input type="text" name="ingredients" id="ingredients" class="form-control" autocomplete="off">
             </div>
     
-            <div class="col-12">
-                <button type="button" class="btn btn-outline-primary" id="addIngredientsBtn">+ Ingredient</button>
-            </div>
             <div class="col-12">
                 <label for="instructions" class="form-label">Instructions</label>
                 <textarea name="instructions" id="instructions" class="form-control" cols="30" rows="4"></textarea>
@@ -321,6 +306,3 @@
 
 
 </script>
-=======
-</script>
->>>>>>> a035658e25b91b2ce7d7eeaed2e4e9e46128a964

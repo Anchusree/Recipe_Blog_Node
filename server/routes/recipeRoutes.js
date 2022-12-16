@@ -40,12 +40,8 @@ recipeRouter.post('/profile',verifyLogin,recipeController.Profile)
 
 recipeRouter.get('/viewList/:id',verifyLogin,recipeController.viewRecipe)
 
-<<<<<<< HEAD
 recipeRouter.get('/editList/:id',verifyLogin,(req,res)=>res.redirect('/'))
 recipeRouter.put('/editList/:id',verifyLogin,recipeController.editRecipe)
-=======
-recipeRouter.post('/editList/:id',verifyLogin,recipeController.editRecipe)
->>>>>>> a035658e25b91b2ce7d7eeaed2e4e9e46128a964
 
 recipeRouter.delete('/deleteList/:id',verifyLogin,recipeController.deleteRecipe)
 
