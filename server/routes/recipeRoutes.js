@@ -36,6 +36,13 @@ recipeRouter.get('/allrecipes',recipeController.allRecipes)
 recipeRouter.get('/profile',verifyLogin,recipeController.userProfile)
 recipeRouter.post('/profile',verifyLogin,recipeController.Profile)
 
+recipeRouter.get('/viewList/:id',verifyLogin,recipeController.viewRecipe)
+
+recipeRouter.get('/editList/:id',verifyLogin,(req,res)=>res.redirect('/'))
+recipeRouter.put('/editList/:id',verifyLogin,recipeController.editRecipe)
+
+recipeRouter.delete('/deleteList/:id',verifyLogin,recipeController.deleteRecipe)
+
 //log out
 recipeRouter.get('/logout',(req,res)=> {
   req.session.destroy();

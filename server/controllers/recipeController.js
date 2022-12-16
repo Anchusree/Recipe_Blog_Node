@@ -179,7 +179,6 @@ exports = module.exports.exploreRandom = async (req, res) => {
         let count = await Recipe.find().countDocuments()
         let random = Math.floor(Math.random() * count)
         let recipe = await Recipe.findOne().skip(random).exec()
-        //res.json(recipe)
         res.render('explore-random', { title: 'Cooking Blog - Explore Random', recipe })
 
     }
@@ -226,7 +225,6 @@ exports = module.exports.submitRecipePost = async (req, res) => {
             ingredients: req.body.ingredients,
             category: req.body.category,
             image: newImageName,
-            nutrition: req.body.nutrition,
             user:req.session.userId
         });
 
@@ -339,7 +337,7 @@ module.exports.userProfile = (req,res) =>{
                 if (recipe) {
                     count = recipe.length     
                 }
-                res.render('userProfile',{user,count})
+                res.render('userProfile',{user,count,recipe})
                 
             } else {
                 // req.flash('infoErrors', "Something went wrong")
@@ -380,15 +378,92 @@ exports = module.exports.Profile = async(req,res) =>{
                 upsert: true
                 })
         .then(response => res.redirect('/profile'))
-       
-
-      
-
-
     }
     catch (error) {
         console.log(error)
         req.flash('infoErrors', error);
     }
     
+}
+
+exports = module.exports.viewRecipe = async(req,res)=>{
+    try {
+        const recipe_id= req.params.id
+        const recipeItem = await Recipe.find({ _id: recipe_id })
+        res.json({status:true,result:recipeItem})
+    }
+    catch (err) {
+        res.status(500).send({ message: err.message || "Error Occured" })
+    }
+}
+
+exports = module.exports.editRecipe = async(req,res)=>{
+    try { 
+        const {name,description} = req.body
+        console.log(name,description)
+
+        console.log(req.body,req.params.id)
+
+        const recipe_id= req.params.id
+        const recipeItem = await Recipe.find({ _id: recipe_id })
+        console.log(recipeItem)
+        let ingredientsArray;
+
+        let imageUploadFile;
+        let uploadPath;
+        let newImageName;
+
+        if (!req.files || Object.keys(req.files).length === 0) {
+            console.log('No Files where uploaded.');
+        } else {
+
+            imageUploadFile = req.files.image;
+            newImageName = Date.now() + imageUploadFile.name;
+
+            uploadPath = require('path').resolve('./') + '/public/uploads/' + newImageName;
+
+            imageUploadFile.mv(uploadPath, function (err) {
+                if (err) return res.satus(500).send(err);
+            })
+        }
+
+        if(req.body.ingredients){
+            ingredientsArray = req.body.ingredients.split(',');
+        }
+        console.log(ingredientsArray)
+
+        await Recipe.findByIdAndUpdate({_id: ObjectId(recipe_id)},
+                
+                    req.body
+                    // name: req.body.name ? req.body.name : recipeItem[0].name,
+                    // description: req.body.description ? req.body.description : recipeItem[0].description,
+                    // instructions: req.body.instructions ? req.body.instructions : recipeItem[0].instructions,
+                    // ingredients: req.body.ingredients ? ingredientsArray : recipeItem[0].ingredients,
+                    // category: req.body.category ? req.body.category : recipeItem[0].category,
+                    // image: newImageName ? newImageName : recipeItem[0].image,
+                ,
+                { new: true }
+                // { upsert: true }
+                )
+        .then(response => {
+            console.log(response)
+            res.json({status:true,result:response})
+        })
+        res.redirect('/profile')
+
+       
+    }
+    catch (err) {
+        res.status(500).send({ message: err.message || "Error Occured" })
+    }
+}
+module.exports.deleteRecipe = async(req,res)=>{
+    let id = req.params.id
+
+    await Recipe.deleteOne({ _id: ObjectId(id) })
+    .then((response)=>{
+        // console.log("response ", response)
+       res.json({status:true})
+    })
+
 }
