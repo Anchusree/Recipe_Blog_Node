@@ -6,13 +6,13 @@
                     <h3 class="dark-color">
                         <%= user.name %>'s Profile
                     </h3>
-                    <!-- <% if(user && user.description ) {%> -->
+                    <% if(user && user.description ) {%>
                     <p>
                         <%= user.description %>
                     </p>
-                    <!-- <% } else { %>
+                    <% } else { %>
                         <p>I am a home baker. My passion is to design digital user experiences through the bold interface and meaningful interactions.</p>
-                    <% } %> -->
+                    <% } %>
 
                     <div class="row about-list">
                         <div class="col-md-6">
@@ -226,7 +226,6 @@
 
                     <label for="image"></label>
                     <input type="file" name="image" accept="image/*" required>
-
                     <button type="submit" class="btn btn-primary">Upload</button>
                 </form>
 
@@ -251,10 +250,6 @@
         </div>
     </div>
 </div>
-
-
-
-
 
 <script>
     function showrecipe() {
