@@ -44,7 +44,7 @@
                                         <% if(count !='' && count> 0) { %>
                                             <i class="bi bi-eye-fill" onclick="showrecipe()"></i>
                                             <% } %>
-                                    <!-- <button type="button" data-toggle="modal" data-target="#exampleModal"><i class="bi bi-eye-fill"></i></button> -->
+                                                <!-- <button type="button" data-toggle="modal" data-target="#exampleModal"><i class="bi bi-eye-fill"></i></button> -->
                                 </p>
                             </div>
                         </div>
@@ -85,18 +85,121 @@
                                                             <i class="bi bi-view-list"></i>
                                                         </button>
 
-                                                        <button class="btn btn-success"
-                                                            onclick="editList('<%= item._id %>')" data-bs-toggle="modal"
+                                                        <button class="btn btn-success" data-bs-toggle="modal"
                                                             data-bs-target="#editModal">
                                                             <i class="bi bi-pen"></i>
                                                         </button>
-                                                        <!-- <a href="editList('<%= item._id %>')"><i class="bi bi-pen"></i></a> -->
 
                                                         <button class="btn btn-danger"
                                                             onclick="removeList('<%= item._id %>')">
                                                             <i class="bi bi-trash"></i>
                                                         </button>
+                                                        <div class="modal fade" id="editModal" tabindex="-1"
+                                                            aria-labelledby="editModallabel" aria-hidden="true">
+                                                            <div
+                                                                class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="editModallabel">Edit Your Recipe</h5>
+                                                                        <button type="button" class="btn-close"
+                                                                            data-bs-dismiss="modal"
+                                                                            aria-label="Close"></button>
+                                                                    </div>
+                                                                    <div class="modal-body" id="modaleditbody">
 
+                                                                        <div class="row justify-content-center">
+                                                                            <form action="/editList/<%= item._id %>"
+                                                                                method="post"
+                                                                                enctype="multipart/form-data">
+                                                                                <div class="row g-3">
+                                                                                    <div class="col-6">
+                                                                                        <label for="name" class="form-label">Recipe</label>
+                                                                                        <input type="text"
+                                                                                            name="name" id="name" 
+                                                                                            class="form-control" value="<%= item.name %>"
+                                                                                            autocomplete="off">
+                                                                                    </div>
+
+                                                                                    <div class="col-12">
+                                                                                        <label for="description"
+                                                                                            class="form-label">Description</label>
+                                                                                        <textarea name="description"
+                                                                                            placeholder="<%= item.description %>"
+                                                                                            id="description"
+                                                                                            class="form-control"
+                                                                                            cols="30" rows="4"
+                                                                                            autocomplete="off"></textarea>
+                                                                                    </div>
+
+                                                                                    <div class="col-12">
+                                                                                        <label for="Ingredients"
+                                                                                            class="form-label">Ingredients</label>
+                                                                                        <input type="text"
+                                                                                            name="ingredients"
+                                                                                            id="ingredients"
+                                                                                            class="form-control"
+                                                                                            value="<%= item.ingredients%>"
+                                                                                            autocomplete="off">
+
+                                                                                    </div>
+
+                                                                                    <div class="col-12">
+                                                                                        <label for="instructions"
+                                                                                            class="form-label">Instructions</label>
+                                                                                        <textarea
+                                                                                        placeholder="<%= item.instructions %>"
+                                                                                            name="instructions"
+                                                                                            id="instructions"
+                                                                                            class="form-control"
+                                                                                            cols="30"
+                                                                                            rows="4"></textarea>
+                                                                                    </div>
+                                                                                    <div class="col-12">
+                                                                                        <label for="category">Category</label>
+                                                                                        <select
+                                                                                            class="form-select form-control"
+                                                                                            name="category"
+                                                                                            aria-label="Category" value="<%= item.category %>">
+                                                                                            <option selected><%= item.category %></option>
+                                                                                            <option value="Thai">
+                                                                                                Thai</option>
+                                                                                            <option
+                                                                                                value="American">
+                                                                                                American</option>
+                                                                                            <option
+                                                                                                value="Chineese">
+                                                                                                Chineese</option>
+                                                                                            <option value="Mexican">
+                                                                                                Mexican</option>
+                                                                                            <option value="Indian">
+                                                                                                Indian</option>
+                                                                                            <option value="Indian">
+                                                                                                Italian</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                    <div class="col-12">
+                                                                                        <label for="image">Image</label>
+                                                                                        <div class='col-md-2'>
+                                                                                            <img src="/uploads/<%= item.image %>" alt="image" loading="lazy" width="80px" height="80px">
+                                                                                        </div>
+                                                                                        <input type="file"
+                                                                                            class="form-control"
+                                                                                            name="image"
+                                                                                            accept="image/*">
+                                                                                    </div>
+
+                                                                                    <div class="col-12">
+                                                                                        <button type="submit"
+                                                                                            class="btn btn-primary"
+                                                                                            id="editsubmit">Edit</button>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                                 <% }) %>
@@ -144,31 +247,11 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModallabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editModallabel">Edit Your Recipe</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" id="modaleditbody">
-
-                <div class="row justify-content-center">
-
-                    <div class="col-8" id="editbody">
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 
@@ -231,97 +314,4 @@
         })
 
     }
-
-
-    function editList(id) {
-
-        event.preventDefault();
-        var htmledit = ''
-
-        htmledit += `
-        <form onsubmit="editFunction(`+id+`)" enctype="multipart/form-data">
-            <div class="row g-3">
-    
-            <div class="col-12">
-                <label for="name" class="form-label">Recipe Name</label>
-                <input type="text" name="name" id="name" class="form-control" autocomplete="off">
-            </div>
-            
-            <div class="col-12">
-                <label for="description" class="form-label">Description</label>
-                <textarea name="description" id="description" class="form-control" cols="30" rows="4" autocomplete="off"></textarea>
-            </div>
-    
-            <div class="col-12">
-                <label for="Ingredients" class="form-label">Ingredients</label>
-                <input type="text" name="ingredients" id="ingredients" class="form-control" autocomplete="off">
-            </div>
-    
-            <div class="col-12">
-                <label for="instructions" class="form-label">Instructions</label>
-                <textarea name="instructions" id="instructions" class="form-control" cols="30" rows="4"></textarea>
-            </div>
-            <div class="col-12">
-                <label for="category">Select Category</label>
-                <select class="form-select form-control" name="category" aria-label="Category">
-                <option selected>Select Category</option>
-                <option value="Thai">Thai</option>
-                <option value="American">American</option>
-                <option value="Chineese">Chineese</option>
-                <option value="Mexican">Mexican</option>
-                <option value="Indian">Indian</option>
-                <option value="Indian">Italian</option>
-                </select>
-            </div>
-            <div class="col-12">
-                <label for="image">Product Image</label>
-                <input type="file" class="form-control" name="image" accept="image/*">
-            </div>
-    
-            <div class="col-12">
-                <button type="submit" class="btn btn-primary" id="editsubmit">Edit</button>
-            </div>
-            </div>
-        </form>`
-        $('#editbody').html(htmledit);
-
-        // document.addEventListener("click", () => {
-        //     document.getElementById('editsubmit').onclick = (event) => {
-        //         event.preventDefault();
-        //         $.ajax({
-        //             url: '/editList/' + id,
-        //             method: 'put',
-        //             success: (response) => {
-        //                 if (response.status) {
-        //                     console.log(response)
-        //                     //location.reload()
-        //                 }
-        //                 else {
-        //                     alert("Something went wrong")
-        //                 }
-        //             }
-        //         })
-        //     }
-        // })
-    }
-    function editFunction(id,e){
-
-        console.log("id",id)
-        e.preventDefault();
-         $.ajax({
-            url: '/editList/' + id,
-            method: 'post',
-            success: (response) => {
-                if (response.status) {
-                    console.log(response)
-                    //location.reload()
-                }
-                else {
-                    alert("Something went wrong")
-                }
-            }
-        })
-    }
-
-
 </script>
