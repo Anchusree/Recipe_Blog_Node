@@ -8,6 +8,7 @@ const fileUpload = require('express-fileupload')
 const session = require('express-session')
 const cookieParser = require('cookie-parser')
 const flash = require('connect-flash');
+const mongoose = require('mongoose');
 const port = process.env.PORT || 4001
 env.config()
 
@@ -31,15 +32,25 @@ app.use(function(req, res, next) {
 app.use(flash());
 app.use(fileUpload());
 
-
 app.set('layout','./layouts/main')
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine','ejs')
 app.use('/',routes)
+require('./server/models/Category');
+require('./server/models/Recipe');
+require('./server/models/User')
 
 
 
 app.listen(port,()=>{
     console.log(`Server running on port ${port}`);
+    mongoose.connect(`${process.env.MONGOURI}`, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+    }).then(() => {
+      console.log('Connected to MongoDB');
+    }).catch(err => {
+      console.error('Error connecting to MongoDB:', err);
+    });
 })

@@ -1,5 +1,4 @@
 
-require('../models/database');
 
 /** 
  * GET / 
